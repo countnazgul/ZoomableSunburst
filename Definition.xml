@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtensionObject Label="ZoomableSunburst" Description="D3 Zoomable Sunburst" PageHeight="50000">
+  <Dimension Label="Parent" Initial="Path" TargetName="Dimension Name" />
+  <Dimension Label="Name" Initial="Measure" TargetName="Dimension Name" />
+  <Measurement Label="Measure" Initial="Sum(Measure)"/>
+	<Text Label="Font size" Type="text" Expression="10" />
+	<Text Label="Font family" Type="text" Expression="sans-serif" />
+  <Initiate Name="Chart.Title" value="d3 Zoomable Sunburst" />
+	<Initiate Name="Caption.Text" Value="d3 Zoomable Sunburst" />
+</ExtensionObject>
