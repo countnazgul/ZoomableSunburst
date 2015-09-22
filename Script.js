@@ -1,8 +1,9 @@
 // Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.3.0
+// Version: 0.4.0
 // Repo: https://github.com/countnazgul/ZoomableSunburst
 // d3 example used: http://bl.ocks.org/mbostock/4348373
+// thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
 
 var _path = Qva.Remote + "?public=only&name=Extensions/ZoomableSunburst/";
 var selectedNode = '';
@@ -56,10 +57,11 @@ function extension_Done(){
 	Qva.AddExtension('ZoomableSunburst', function(){
 		var _this 				= this;
 		//var showValues 			= _this.Layout.Text0.text.toString();
-		var fontSize 			= _this.Layout.Text0.text.toString() + 'px';
+		var fontSize 			  = _this.Layout.Text0.text.toString() + 'px';
 		var fontFamily 			= _this.Layout.Text1.text.toString();
 		var colorScheme 		= _this.Layout.Text2.text.toString();
 		var colorSchemeNo		= _this.Layout.Text3.text.toString();
+    var opacity         = parseInt(_this.Layout.Text4.text.toString()) / 100;
     var showValues = false;
 		// if(showValues == '' || showValues == 0) {
 		//   showValues = false;
@@ -164,7 +166,7 @@ function extension_Done(){
 		  return obj;
 		}
 
-    var width = 600,
+    var width = 900,
         height = 700,
         radius = Math.min(width, height) / 2;
 
@@ -173,7 +175,6 @@ function extension_Done(){
 
     var y = d3.scale.linear()
         .range([0, radius]);
-//alert( colorScheme + ' ' + colorSchemeNo + ' --> ' + colorbrewer[colorScheme][colorSchemeNo]);
     var color = d3.scale.ordinal()
            .range( colorbrewer[colorScheme][colorSchemeNo])
     ;
@@ -185,21 +186,11 @@ function extension_Done(){
         .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
 
     var partition = d3.layout.partition()
-        .value(function(d) { 
-		//alert(d.depth);
-		if(d.depth <= 3) {
+        .value(function(d) {
 				return d.size;
-			} else {
-				null
-			} 
-			/*if( d.size > 5000 ) {
-				return d.size;
-			} else {
-				null
-			} */
-		})		
+		})
 		;
-		
+
 		//console.log((partition)
 
     var arc = d3.svg.arc()
@@ -220,11 +211,11 @@ function extension_Done(){
         .style("fill", function(d) {
             return color((d.children ? d : d.parent).name);
           })
-        .style("opacity", 0.7)
+        .style("opacity", opacity)
         .on("click", click)
         ;
 
-		
+
       var text = g.append("text")
         .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
         .attr("x", function(d) { return y(d.y); })
@@ -233,9 +224,10 @@ function extension_Done(){
         .attr("font-size", fontSize)
         .attr("font-family", fontFamily)
         .text(function(d) { return d.name })
-
+        .attr("visibility",function(d) { return d.dx < 0.01? "hidden" : "visible"})
 
       function click(d) {
+        var total = d.dx;
         // fade out all text elements
         text.transition().attr("opacity", 0);
 
@@ -252,12 +244,33 @@ function extension_Done(){
                   .attr("opacity", 1)
 
                   .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
-                  .attr("x", function(d) { return y(d.y); });
+                  .attr("x", function(d) { return y(d.y); })
+                  .attr("visibility",function(d) { return d.dx/total < 0.01? "hidden" : "visible"});
               }
           });
       }
 
     d3.select(self.frameElement).style("height", height + "px");
+
+    function pointIsInArc(pt, ptData, d3Arc) {
+      //console.log(pt)
+      //console.log(ptData)
+      //console.log(d3Arc)
+      // Center of the arc is assumed to be 0,0
+      // (pt.x, pt.y) are assumed to be relative to the center
+      var r1 = d3Arc.innerRadius()(ptData), // Note: Using the innerRadius
+          r2 = d3Arc.outerRadius()(ptData),
+          theta1 = d3Arc.startAngle()(ptData),
+          theta2 = d3Arc.endAngle()(ptData);
+
+      var dist = pt.x * pt.x + pt.y * pt.y,
+          angle = Math.atan2(pt.x, -pt.y); // Note: different coordinate system.
+
+      angle = (angle < 0) ? (angle + Math.PI * 2) : angle;
+
+      return (r1 * r1 <= dist) && (dist <= r2 * r2) &&
+             (theta1 <= angle) && (angle <= theta2);
+    }
 
     // Interpolate the scales!
     function arcTween(d) {

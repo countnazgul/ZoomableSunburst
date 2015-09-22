@@ -30,7 +30,7 @@
 	<div class='prop-grid_span-10 prop-grid_last'>
 		<div class='popup-grid_span-7 popup-grid_last' style='width:94%;' avq='prop_editexpression:.Chart.Text.1.Content'></div>
 	</div><br />
-	<div class='prop-grid_clear prop-grid_prepend-1 prop-grid_span-5' avq='prop_label'>selectBox 1</div>
+	<div class='prop-grid_clear prop-grid_prepend-1 prop-grid_span-5' avq='prop_label'>Color Scheme</div>
 	<div class='prop-grid_span-10 prop-grid_last'>
 		<select style='width:94%;' avq='mySelect:.Chart.Text.2.Content'>
 			<option value='YlGn'></option>
@@ -70,7 +70,7 @@
 			<option value='Set3'>Set3</option>
 		</select>
 	</div><br />
-	<div class='prop-grid_clear prop-grid_prepend-1 prop-grid_span-5' avq='prop_label'>selectBox 1</div>
+	<div class='prop-grid_clear prop-grid_prepend-1 prop-grid_span-5' avq='prop_label'>Color Sub Scheme</div>
 	<div class='prop-grid_span-10 prop-grid_last'>
 		<select style='width:94%;' avq='mySelect:.Chart.Text.3.Content'>
 			<option value='3'></option>
@@ -84,6 +84,10 @@
 			<option value='11'>11</option>
 			<option value='12'>12</option>
 		</select>
+	</div><br />
+	<div class='prop-grid_clear prop-grid_prepend-1 prop-grid_span-5' avq='prop_label'>Opacity (0-100)</div>
+	<div class='prop-grid_span-10 prop-grid_last'>
+		<div class='popup-grid_span-7 popup-grid_last' style='width:94%;' avq='prop_editexpression:.Chart.Text.4.Content'></div>
 	</div><br />
 
 		</div>
