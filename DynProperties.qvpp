@@ -30,6 +30,61 @@
 	<div class='prop-grid_span-10 prop-grid_last'>
 		<div class='popup-grid_span-7 popup-grid_last' style='width:94%;' avq='prop_editexpression:.Chart.Text.1.Content'></div>
 	</div><br />
+	<div class='prop-grid_clear prop-grid_prepend-1 prop-grid_span-5' avq='prop_label'>selectBox 1</div>
+	<div class='prop-grid_span-10 prop-grid_last'>
+		<select style='width:94%;' avq='mySelect:.Chart.Text.2.Content'>
+			<option value='YlGn'></option>
+			<option value='YlGnBu'>YlGnBu</option>
+			<option value='GnBu'>GnBu</option>
+			<option value='BuGn'>BuGn</option>
+			<option value='PuBuGn'>PuBuGn</option>
+			<option value='PuBu'>PuBu</option>
+			<option value='BuPu'>BuPu</option>
+			<option value='RdPu'>RdPu</option>
+			<option value='PuRd'>PuRd</option>
+			<option value='OrRd'>OrRd</option>
+			<option value='YlOrRd'>YlOrRd</option>
+			<option value='YlOrBr'>YlOrBr</option>
+			<option value='Purples'>Purples</option>
+			<option value='Blues'>Blues</option>
+			<option value='Greens'>Greens</option>
+			<option value='Oranges'>Oranges</option>
+			<option value='Reds'>Reds</option>
+			<option value='Greys'>Greys</option>
+			<option value='PuOr'>PuOr</option>
+			<option value='BrBG'>BrBG</option>
+			<option value='PRGn'>PRGn</option>
+			<option value='PiYG'>PiYG</option>
+			<option value='RdBu'>RdBu</option>
+			<option value='RdGy'>RdGy</option>
+			<option value='RdYlBu'>RdYlBu</option>
+			<option value='Spectral'>Spectral</option>
+			<option value='RdYlGn'>RdYlGn</option>
+			<option value='Accent'>Accent</option>
+			<option value='Dark2'>Dark2</option>
+			<option value='Paired'>Paired</option>
+			<option value='Pastel1'>Pastel1</option>
+			<option value='Pastel2'>Pastel2</option>
+			<option value='Set1'>Set1</option>
+			<option value='Set2'>Set2</option>
+			<option value='Set3'>Set3</option>
+		</select>
+	</div><br />
+	<div class='prop-grid_clear prop-grid_prepend-1 prop-grid_span-5' avq='prop_label'>selectBox 1</div>
+	<div class='prop-grid_span-10 prop-grid_last'>
+		<select style='width:94%;' avq='mySelect:.Chart.Text.3.Content'>
+			<option value='3'></option>
+			<option value='4'>4</option>
+			<option value='5'>5</option>
+			<option value='6'>6</option>
+			<option value='7'>7</option>
+			<option value='8'>8</option>
+			<option value='9'>9</option>
+			<option value='10'>10</option>
+			<option value='11'>11</option>
+			<option value='12'>12</option>
+		</select>
+	</div><br />
 
 		</div>
 		<h3 class="prop-h3 accordion-shadow" avq="activeAccordionHeader:.:GenericPresentationFoldout.qvpp">

@@ -1,8 +1,8 @@
-// RadialTree Qlikview Extension
+// Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.6.1
-// Repo:https://github.com/countnazgul/RadialTree
-// d3 example used: http://bl.ocks.org/mbostock/4063550
+// Version: 0.3.0
+// Repo: https://github.com/countnazgul/ZoomableSunburst
+// d3 example used: http://bl.ocks.org/mbostock/4348373
 
 var _path = Qva.Remote + "?public=only&name=Extensions/ZoomableSunburst/";
 var selectedNode = '';
@@ -58,6 +58,8 @@ function extension_Done(){
 		//var showValues 			= _this.Layout.Text0.text.toString();
 		var fontSize 			= _this.Layout.Text0.text.toString() + 'px';
 		var fontFamily 			= _this.Layout.Text1.text.toString();
+		var colorScheme 		= _this.Layout.Text2.text.toString();
+		var colorSchemeNo		= _this.Layout.Text3.text.toString();
     var showValues = false;
 		// if(showValues == '' || showValues == 0) {
 		//   showValues = false;
@@ -162,7 +164,7 @@ function extension_Done(){
 		  return obj;
 		}
 
-    var width = 900,
+    var width = 600,
         height = 700,
         radius = Math.min(width, height) / 2;
 
@@ -171,9 +173,9 @@ function extension_Done(){
 
     var y = d3.scale.linear()
         .range([0, radius]);
-
+//alert( colorScheme + ' ' + colorSchemeNo + ' --> ' + colorbrewer[colorScheme][colorSchemeNo]);
     var color = d3.scale.ordinal()
-           .range(["#2ca02c", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#ff7f1e"])
+           .range( colorbrewer[colorScheme][colorSchemeNo])
     ;
 
     var svg = d3.select("#" + divName).append("svg")
@@ -182,10 +184,23 @@ function extension_Done(){
         .append("g")
         .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
 
-
-
     var partition = d3.layout.partition()
-        .value(function(d) { return d.size; });
+        .value(function(d) { 
+		//alert(d.depth);
+		if(d.depth <= 3) {
+				return d.size;
+			} else {
+				null
+			} 
+			/*if( d.size > 5000 ) {
+				return d.size;
+			} else {
+				null
+			} */
+		})		
+		;
+		
+		//console.log((partition)
 
     var arc = d3.svg.arc()
         .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
@@ -193,8 +208,8 @@ function extension_Done(){
         .innerRadius(function(d) { return Math.max(0, y(d.y)); })
         .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-
       var root = nodesJson;
+
       var g = svg.selectAll("g")
           .data(partition.nodes(root))
           .enter().append("g")
@@ -206,10 +221,10 @@ function extension_Done(){
             return color((d.children ? d : d.parent).name);
           })
         .style("opacity", 0.7)
-        //.attr("font-size", fontSize)
         .on("click", click)
         ;
-console.log(fontSize)
+
+		
       var text = g.append("text")
         .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
         .attr("x", function(d) { return y(d.y); })
@@ -222,7 +237,6 @@ console.log(fontSize)
 
       function click(d) {
         // fade out all text elements
-
         text.transition().attr("opacity", 0);
 
         path.transition()

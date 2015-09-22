@@ -7,4 +7,9 @@
 	<Text Label="Font family" Type="text" Expression="sans-serif" />
   <Initiate Name="Chart.Title" value="d3 Zoomable Sunburst" />
 	<Initiate Name="Caption.Text" Value="d3 Zoomable Sunburst" />
+	<Text Label="selectBox 1" Type="select" Select="YlGn,YlGnBu,GnBu,BuGn,PuBuGn,PuBu,BuPu,RdPu,PuRd,OrRd,YlOrRd,YlOrBr,Purples,Blues,Greens,Oranges,Reds,Greys,PuOr,BrBG,PRGn,PiYG,RdBu,RdGy,RdYlBu,Spectral,RdYlGn,Accent,Dark2,Paired,Pastel1,Pastel2,Set1,Set2,Set3" Expression="Pastel1"/>
+	<Text Label="selectBox 1" Type="select" Select="3,4,5,6,7,8,9,10,11,12" Expression="3"/>	
 </ExtensionObject>
+
+
+
