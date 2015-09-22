@@ -1,6 +1,6 @@
 // Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.4.0
+// Version: 0.4.1
 // Repo: https://github.com/countnazgul/ZoomableSunburst
 // d3 example used: http://bl.ocks.org/mbostock/4348373
 // thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
@@ -62,6 +62,7 @@ function extension_Done(){
 		var colorScheme 		= _this.Layout.Text2.text.toString();
 		var colorSchemeNo		= _this.Layout.Text3.text.toString();
     var opacity         = parseInt(_this.Layout.Text4.text.toString()) / 100;
+    var zoomSpeed       = parseInt(_this.Layout.Text5.text.toString());
     var showValues = false;
 		// if(showValues == '' || showValues == 0) {
 		//   showValues = false;
@@ -232,7 +233,7 @@ function extension_Done(){
         text.transition().attr("opacity", 0);
 
         path.transition()
-          .duration(750)
+          .duration(zoomSpeed)
           .attrTween("d", arcTween(d))
           .each("end", function(e, i) {
               // check if the animated element's data e lies within the visible angle span given in d
