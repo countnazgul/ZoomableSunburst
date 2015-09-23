@@ -1,6 +1,6 @@
 // Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.4.2
+// Version: 0.4.3
 // Repo: https://github.com/countnazgul/ZoomableSunburst
 // d3 example used: http://bl.ocks.org/mbostock/4348373
 // Thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
@@ -195,13 +195,12 @@ function extension_Done(){
 		})
 		;
 
-		//console.log((partition)
-
-    var arc = d3.svg.arc()
+		var arc = d3.svg.arc()
         .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
         .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
         .innerRadius(function(d) { return Math.max(0, y(d.y)); })
-        .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+        .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); })
+		;
 
       var root = nodesJson;
 
@@ -217,6 +216,8 @@ function extension_Done(){
           })
         .style("opacity", opacity)
         .on("click", click)
+		.attr("d", arc).style('stroke', 'white')
+		.style('stroke-width', 0.3);
         ;
 
 
@@ -256,26 +257,6 @@ function extension_Done(){
       }
 
     d3.select(self.frameElement).style("height", height + "px");
-
-    function pointIsInArc(pt, ptData, d3Arc) {
-      //console.log(pt)
-      //console.log(ptData)
-      //console.log(d3Arc)
-      // Center of the arc is assumed to be 0,0
-      // (pt.x, pt.y) are assumed to be relative to the center
-      var r1 = d3Arc.innerRadius()(ptData), // Note: Using the innerRadius
-          r2 = d3Arc.outerRadius()(ptData),
-          theta1 = d3Arc.startAngle()(ptData),
-          theta2 = d3Arc.endAngle()(ptData);
-
-      var dist = pt.x * pt.x + pt.y * pt.y,
-          angle = Math.atan2(pt.x, -pt.y); // Note: different coordinate system.
-
-      angle = (angle < 0) ? (angle + Math.PI * 2) : angle;
-
-      return (r1 * r1 <= dist) && (dist <= r2 * r2) &&
-             (theta1 <= angle) && (angle <= theta2);
-    }
 
     // Interpolate the scales!
     function arcTween(d) {
