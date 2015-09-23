@@ -1,9 +1,9 @@
 // Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.4.1
+// Version: 0.4.2
 // Repo: https://github.com/countnazgul/ZoomableSunburst
 // d3 example used: http://bl.ocks.org/mbostock/4348373
-// thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
+// Thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
 
 var _path = Qva.Remote + "?public=only&name=Extensions/ZoomableSunburst/";
 var selectedNode = '';
@@ -16,7 +16,7 @@ function extension_Init()
     });
 }
 
-if (Qva.Mgr.mySelect == undefined) {
+if (Qva.Mgr.mySelect === undefined) {
     Qva.Mgr.mySelect = function (owner, elem, name, prefix) {
         if (!Qva.MgrSplit(this, name, prefix)) return;
         owner.AddManager(this);
@@ -28,19 +28,19 @@ if (Qva.Mgr.mySelect == undefined) {
 
         elem.onchange = Qva.Mgr.mySelect.OnChange;
         elem.onclick = Qva.CancelBubble;
-    }
+    };
     Qva.Mgr.mySelect.OnChange = function () {
         var binder = Qva.GetBinder(this.binderid);
         if (!binder.Enabled) return;
         if (this.selectedIndex < 0) return;
         var opt = this.options[this.selectedIndex];
         binder.Set(this.Name, 'text', opt.value, true);
-    }
+    };
     Qva.Mgr.mySelect.prototype.Paint = function (mode, node) {
         this.Touched = true;
         var element = this.Element;
         var currentValue = node.getAttribute("value");
-        if (currentValue == null) currentValue = "";
+        if (currentValue === null) currentValue = "";
         var optlen = element.options.length;
         element.disabled = mode != 'e';
 
@@ -50,7 +50,7 @@ if (Qva.Mgr.mySelect == undefined) {
             }
         }
         element.style.display = Qva.MgrGetDisplayFromMode(this, mode);
-    }
+    };
 }
 
 function extension_Done(){
@@ -63,7 +63,10 @@ function extension_Done(){
 		var colorSchemeNo		= _this.Layout.Text3.text.toString();
     var opacity         = parseInt(_this.Layout.Text4.text.toString()) / 100;
     var zoomSpeed       = parseInt(_this.Layout.Text5.text.toString());
+    var Width           = parseInt(_this.Layout.Text6.text.toString());
+    var Height          = parseInt(_this.Layout.Text7.text.toString());
     var showValues = false;
+    
 		// if(showValues == '' || showValues == 0) {
 		//   showValues = false;
 		// } else {
@@ -72,7 +75,7 @@ function extension_Done(){
 
 		var divName = _this.Layout.ObjectId.replace("\\", "_");
 
-		if(_this.Element.children.length == 0) {
+		if(_this.Element.children.length === 0) {
 			var ui = document.createElement("div");
 			ui.setAttribute("id", divName);
 			_this.Element.appendChild(ui);
@@ -94,14 +97,14 @@ function extension_Done(){
 
 			var node =  [{"name":val2},{"parent":val1},{"size":m}];
 			nodesArray.push(node);
-			parents.push(row[0].text)
+			parents.push(row[0].text);
 		}
 
 		var uniqueParents = parents.filter(function(itm,i,a){
 			return i==a.indexOf(itm);
 		});
 
-		if( uniqueParents.length == 0 ) {
+		if( uniqueParents.length === 0 ) {
 			nodesArray.push([{"name":uniqueParents[0]},{"parent":'-'},{"size":1}]);
 		} else {
 			if( selectedNode ) {
@@ -128,7 +131,7 @@ function extension_Done(){
 		    return happyData.filter(function(d) { return d.parent === name; })
 		      .map(function(d) {
               var values = '';
-              if( showValues == true ) {
+              if( showValues === true ) {
                 values = ' (' + parseInt(d.size).toLocaleString() + ')';
               }
 		        return {
@@ -143,7 +146,7 @@ function extension_Done(){
 
 		var selectedNodes = [];
 		function traverse(o ) {
-			for (i in o) {
+			for (var i in o) {
 				if (typeof(o[i])=="object") {
 				  if (o[i].name) {
 					selectedNodes.push((o[i].name));
@@ -156,19 +159,19 @@ function extension_Done(){
 
 		function removeProp(obj, propName) {
 		  for (var p in obj) {
-			if (obj.hasOwnProperty(p)) {
-			  if (p == propName) {
-				delete obj[p];
-			  } else if (typeof obj[p] == 'object') {
-				removeProp(obj[p], propName);
-			  }
-			}
+  			if (obj.hasOwnProperty(p)) {
+  			  if (p == propName) {
+  				delete obj[p];
+  			  } else if (typeof obj[p] == 'object') {
+  				removeProp(obj[p], propName);
+  			  }
+  			}
 		  }
 		  return obj;
 		}
 
-    var width = 900,
-        height = 700,
+    var width = Width,
+        height = Height,
         radius = Math.min(width, height) / 2;
 
     var x = d3.scale.linear()
@@ -226,6 +229,7 @@ function extension_Done(){
         .attr("font-family", fontFamily)
         .text(function(d) { return d.name })
         .attr("visibility",function(d) { return d.dx < 0.01? "hidden" : "visible"})
+        ;
 
       function click(d) {
         var total = d.dx;
