@@ -1,5 +1,7 @@
 ### Qlikview d3 Zoomable Sunburst Extension
 
+[![Join the chat at https://gitter.im/countnazgul/ZoomableSunburst](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/countnazgul/ZoomableSunburst?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The extension is based on [Zoomable Sunburst with Labels](http://bl.ocks.org/metmajer/5480307)
 
 ***Make sure that the root element (node1 in the screenshot below) have "-" in the parent field!***
