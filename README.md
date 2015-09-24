@@ -1,4 +1,4 @@
-Qlikview d3 Zoomable Sunburst Extension
+### Qlikview d3 Zoomable Sunburst Extension
 
 The extension is based on [Zoomable Sunburst with Labels](http://bl.ocks.org/metmajer/5480307)
 
