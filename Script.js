@@ -1,6 +1,6 @@
 // Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.4.3
+// Version: 0.5.0
 // Repo: https://github.com/countnazgul/ZoomableSunburst
 // d3 example used: http://bl.ocks.org/mbostock/4348373
 // Thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
@@ -65,6 +65,8 @@ function extension_Done(){
     var zoomSpeed       = parseInt(_this.Layout.Text5.text.toString());
     var Width           = parseInt(_this.Layout.Text6.text.toString());
     var Height          = parseInt(_this.Layout.Text7.text.toString());
+	var BorderWidth          = parseFloat(_this.Layout.Text8.text.toString());
+	var BorderColor          = _this.Layout.Text9.text.toString();
     var showValues = false;
     
 		// if(showValues == '' || showValues == 0) {
@@ -216,8 +218,8 @@ function extension_Done(){
           })
         .style("opacity", opacity)
         .on("click", click)
-		.attr("d", arc).style('stroke', 'white')
-		.style('stroke-width', 0.3);
+		.attr("d", arc).style('stroke', BorderColor)
+		.style('stroke-width', BorderWidth);
         ;
 
 
