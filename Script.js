@@ -1,6 +1,6 @@
 // Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.5.1
+// Version: 0.5.2
 // Repo: https://github.com/countnazgul/ZoomableSunburst
 // d3 example used: http://bl.ocks.org/mbostock/4348373
 // Thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
@@ -67,6 +67,7 @@ function extension_Done() {
     var Height = parseInt(_this.Layout.Text7.text.toString());
     var BorderWidth = parseFloat(_this.Layout.Text8.text.toString());
     var BorderColor = _this.Layout.Text9.text.toString();
+    var TooltipStyle = _this.Layout.Text10.text.toString();
     var showValues = false;
     
     // if(showValues == '' || showValues == 0) {
@@ -88,6 +89,7 @@ function extension_Done() {
     var td = _this.Data;
     var nodesArray = [];
     var parents = [];
+    var tooltip = [];
 
     for (var rowIx = 0; rowIx < td.Rows.length; rowIx++) {
 
@@ -95,9 +97,11 @@ function extension_Done() {
 
       var val1 = row[0].text;
       var val2 = row[1].text;
+      var val3 = row[3].text;
+      tooltip.push(val3);
       var m = row[2].text;
 
-      var node = [{ "name": val2 }, { "parent": val1 }, { "size": m }];
+      var node = [{ "name": val2 }, { "parent": val1 }, { "size": m }, { "tooltip": val3 }];
       nodesArray.push(node);
       parents.push(row[0].text);
     }
@@ -119,13 +123,16 @@ function extension_Done() {
     }
 
     var nodesJson = createJSON(nodesArray);
-
+    console.log(nodesJson)
     function createJSON(Data) {
       var happyData = Data.map(function (d) {
+        //console.log(d[3].tooltip)
         return {
+          tooltip: d[3].tooltip,
           name: d[0].name,
           parent: d[1].parent,
           size: d[2].size
+
         };
       });
 
@@ -139,7 +146,8 @@ function extension_Done() {
             return {
               name: d.name + '' + values,
               size: d.size,
-              children: getChildren(d.name)
+              children: getChildren(d.name),
+              tooltip: d.tooltip
             };
           });
       }
@@ -211,32 +219,31 @@ function extension_Done() {
       .enter().append("g")
       ;
 
+    TooltipStyle = TooltipStyle.replace(/\r?\n/g, "");
+    TooltipStyle = TooltipStyle.replace(/"/g, "");
+    TooltipStyle = TooltipStyle.trim();
+    var styles = TooltipStyle.split(';')
+    var s = [];
+    for (var i = 0; i < styles.length; i++) {
+      if (styles[i].length > 1) {
+        var style = styles[i].split(":");
+        s.push([style[0], style[1]])
+      }
+    }
+
+    function someFunc(d) {
+      for (var i = 0; i < s.length; i++) {
+        var a = s[i];
+        d3.select(this).style(a[0], a[1].trim());
+      }
+    }
+
     var tooltip = d3.select("#" + divName).append("div")
       .style("opacity", 0)
       .style("position", "absolute")
       .style("text-align", "center")
     tooltip.each(someFunc);
 
-    function someFunc(d) {
-      var t = [];
-      t.push(["padding", "2px"])
-      t.push(["pointer-events", "none"])
-      t.push(["font", "19px sans-serif"])
-      t.push(["background", "lightsteelblue"])
-      t.push(["border", "5px"])
-
-      for (var i = 0; i < t.length; i++) {
-        var a = t[i];
-        d3.select(this).style(a[0], a[1]);
-      }
-    }
-
-    var SVGtooltip = d3.select("g.tooltip");
-
-    function format_name(d) {
-      var name = d.name;
-      return '<b>' + name + '</b><br> (' + '10000' + ')';
-    }
 
     var path = g.append("path")
       .attr("d", arc)
@@ -248,12 +255,13 @@ function extension_Done() {
 		    .attr("d", arc).style('stroke', BorderColor)
 		    .style('stroke-width', BorderWidth)
       .on("mouseover", function (d) {
-        console.log(d)
+        //console.log(d)
         tooltip.transition().duration(200).style("opacity", .9)
         tooltip
           .style("left", (d3.mouse(d3.select("#" + divName).node())[0] - 10) + "px")
           .style("top", (d3.mouse(d3.select("#" + divName).node())[1] + 10) + "px")
-          .html(d.name + '<br/>' + d.value)
+        //.html(d.name + '<br/>' + d.value)
+          .html(d.tooltip)
       })
 
     var text = g.append("text")

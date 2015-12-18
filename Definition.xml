@@ -2,8 +2,9 @@
 <ExtensionObject Label="ZoomableSunburst" Description="D3 Zoomable Sunburst" PageHeight="50000">
   <PropertiesPage  Version="11" File="Properties.qvpp" />
   <Dimension Label="Parent" Initial="Path" TargetName="Dimension Name" />
-  <Dimension Label="Name" Initial="Measure" TargetName="Dimension Name" />
-  <Measurement Label="Measure" Initial="Sum(Measure)"/>
+  <Dimension Label="Name" Initial="Measure" TargetName="Dimension Name" />  
+  <Measurement Label="Measure" Initial="Sum(Measure)"/>  
+  <Measurement Label="Measure" Initial=""/>
   <Text Label="Font size" Type="text" Expression="10" />
   <Text Label="Font family" Type="text" Expression="sans-serif" />
   <Text Label="Color Scheme" Type="select" Select="YlGn,YlGnBu,GnBu,BuGn,PuBuGn,PuBu,BuPu,RdPu,PuRd,OrRd,YlOrRd,YlOrBr,Purples,Blues,Greens,Oranges,Reds,Greys,PuOr,BrBG,PRGn,PiYG,RdBu,RdGy,RdYlBu,Spectral,RdYlGn,Accent,Dark2,Paired,Pastel1,Pastel2,Set1,Set2,Set3" Expression="Pastel1"/>
@@ -13,7 +14,8 @@
   <Text Label="Width" Type="text" Expression="900" />
   <Text Label="Height" Type="text" Expression="700" />
   <Text Label="Border Width" Type="text" Expression="0.3" />
-  <Text Label="Border Color" Type="text" Expression="white" />  
+  <Text Label="Border Color" Type="text" Expression="white" />
+  <Text Label="Tooltip style" Type="text" Expression="" />
   
   <Initiate Name="Chart.Title" value="d3 Zoomable Sunburst" />
 	<Initiate Name="Caption.Text" Value="d3 Zoomable Sunburst" />
