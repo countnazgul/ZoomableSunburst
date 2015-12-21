@@ -7,7 +7,8 @@ The extension is based on [Zoomable Sunburst with Labels](http://bl.ocks.org/met
 ***Make sure that the root element (node1 in the screenshot below) have "-" in the parent field!***
 
 ### Options
-
+* Tooltip format - QV string formated html. For example: `node & '<br/> <b>'  & sum(value) & '<b>'`
+* Color Expression - QV string representation of color. For example: `if(value > 10, 'blue', 'green')`
 * Font size
 * Font family
 * Color scheme - thanks to Cynthia Brewer you can pick from one of many coloring options
@@ -18,6 +19,21 @@ The extension is based on [Zoomable Sunburst with Labels](http://bl.ocks.org/met
 * Height
 * Border color - the border color of each arc. Accept readable colors ( like "green", "white" etc. ), HEX colors ( like "#fff" ) and RGB colors ( like "RGB(255, 255, 255)" )
 * Border width - arc border width
+* Tooltip style - tooltip css. For example:
+
+```
+position: absolute;
+text-align: center;
+width: none;
+height: none;
+padding: 2px;
+font: 12px sans-serif;
+background: lightsteelblue;
+border: 0px;
+border-radius: 8px;
+pointer-events: none;
+```  
+
 
 ### Screenshots
 ![Example](https://raw.githubusercontent.com/countnazgul/ZoomableSunburst/master/Screenshots/Qlikview_Zoomable_Sunburst.gif)
