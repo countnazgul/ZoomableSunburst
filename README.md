@@ -8,7 +8,7 @@ The extension is based on [Zoomable Sunburst with Labels](http://bl.ocks.org/met
 
 ### Options
 * Tooltip format - QV string formated html. For example: `node & '<br/> <b>'  & sum(value) & '<b>'`
-* Color Expression - QV string representation of color. For example: `if(value > 10, 'blue', 'green')`
+* Color Expression - QV string representation of color. For example: `if(value > 10, 'blue', 'green')`. Instead `blue`, RGB or HEX color formats are accepted
 * Font size
 * Font family
 * Color scheme - thanks to Cynthia Brewer you can pick from one of many coloring options
