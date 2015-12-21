@@ -1,6 +1,6 @@
 // Zoomable Sunburst Qlikview Extension
 // Author: stefan.stoichev@gmail.com
-// Version: 0.5.2
+// Version: 0.5.3
 // Repo: https://github.com/countnazgul/ZoomableSunburst
 // d3 example used: http://bl.ocks.org/mbostock/4348373
 // Thanks to: Cynthia Brewer for the ColorBrewer Scale http://bl.ocks.org/mbostock/5577023
@@ -91,6 +91,16 @@ function extension_Done() {
     var parents = [];
     var tooltip = [];
 
+    //console.log(td)
+    var colorExpression;
+    if (td.HeaderRows[0][4].text === "") {
+      colorExpression = false;
+    } else {
+      colorExpression = true;
+    }
+    
+    //console.log(colorExpression)
+
     for (var rowIx = 0; rowIx < td.Rows.length; rowIx++) {
 
       var row = td.Rows[rowIx];
@@ -98,10 +108,19 @@ function extension_Done() {
       var val1 = row[0].text;
       var val2 = row[1].text;
       var val3 = row[3].text;
+      //console.log( row[4].text )
       tooltip.push(val3);
       var m = row[2].text;
 
+
       var node = [{ "name": val2 }, { "parent": val1 }, { "size": m }, { "tooltip": val3 }];
+
+      if (colorExpression == true) {
+        node.push({ "colorExpression": row[4].text })
+      } else {
+        node.push({ "colorExpression": "" });
+      }
+      
       nodesArray.push(node);
       parents.push(row[0].text);
     }
@@ -123,7 +142,7 @@ function extension_Done() {
     }
 
     var nodesJson = createJSON(nodesArray);
-    console.log(nodesJson)
+    //console.log(nodesJson)
     function createJSON(Data) {
       var happyData = Data.map(function (d) {
         //console.log(d[3].tooltip)
@@ -131,7 +150,8 @@ function extension_Done() {
           tooltip: d[3].tooltip,
           name: d[0].name,
           parent: d[1].parent,
-          size: d[2].size
+          size: d[2].size,
+          colorExpression: d[4].colorExpression
 
         };
       });
@@ -147,7 +167,8 @@ function extension_Done() {
               name: d.name + '' + values,
               size: d.size,
               children: getChildren(d.name),
-              tooltip: d.tooltip
+              tooltip: d.tooltip,
+              colorExpression: d.colorExpression
             };
           });
       }
@@ -248,7 +269,13 @@ function extension_Done() {
     var path = g.append("path")
       .attr("d", arc)
       .style("fill", function (d) {
-        return color((d.children ? d : d.parent).name);
+        //console.log(d)
+        if (colorExpression == false) {
+          return color((d.children ? d : d.parent).name);
+        } else {
+          
+          return d.colorExpression;
+        }
       })
       .style("opacity", opacity)
       .on("click", click)
